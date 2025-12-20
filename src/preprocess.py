@@ -21,3 +21,15 @@ df['Class'] = df['Class'].map({'Business': 2, 'Eco Plus': 1, 'Eco': 0})
 print('------------data after mapping categorical variables-------------')
 print(df.head())
 
+#check for null values
+print('------------checking for null values-------------')
+null_counts = df.isna().sum()
+print(null_counts)
+
+#handle missing values 
+df['Arrival Delay in Minutes'] = df['Arrival Delay in Minutes'].fillna(df['Arrival Delay in Minutes'].median())
+print('------------data after handling missing values-------------')
+print(df.isna().sum())
+
+# Save this version
+df.to_csv('Preprocessed_Airline_Data_V2.csv', index=False)
