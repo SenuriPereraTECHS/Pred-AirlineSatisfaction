@@ -38,3 +38,6 @@ df_preprocessed = pd.read_csv('Preprocessed_Airline_Data_V2.csv')
 # Execute extraction and correlation analysis
 df_final, satisfaction_correlations = feature_extraction_and_correlation(df_preprocessed)
 
+# Save the final dataset
+df_final.to_csv('Airline_Data_Final_Features.csv', index=False)
+print("\nFinal feature-extracted data saved to: Airline_Data_Final_Features.csv")
