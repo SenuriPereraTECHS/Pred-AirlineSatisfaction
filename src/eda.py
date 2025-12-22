@@ -16,6 +16,7 @@ def feature_extraction_and_correlation(df, output_heatmap = 'correlationHeatmap.
     plt.tight_layout()
     plt.savefig(output_heatmap)
     
+    
     # 3. Feature Extraction (Engineering)
     # Since Departure and Arrival delays are highly correlated (0.96), 
     # we can combine them into one 'Total Delay' feature.
