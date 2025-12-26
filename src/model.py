@@ -87,3 +87,14 @@ best_rf_model = grid_search.best_estimator_
 
 print(f"Best Parameters: {grid_search.best_params_}")
 print(f"Best Cross-Validation Score: {grid_search.best_score_:.4f}")
+
+# 6. Final Evaluation on Test Set
+final_preds = best_rf_model.predict(X_test)
+final_acc = accuracy_score(y_test, final_preds)
+
+print("\n--- Optimized Random Forest Performance ---")
+print(f"Final Test Accuracy: {final_acc:.4f}")
+print(classification_report(y_test, final_preds))
+
+# 7. Compare with the original model
+print(f"Improvement over baseline: {(final_acc - rf_acc):.4f}")
