@@ -55,3 +55,35 @@ ax[1].set_ylabel('Actual')
 plt.tight_layout()
 plt.savefig('model_comparison_results.png')
 
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
+# 1. Define the base model
+rf = RandomForestClassifier(random_state=42)
+
+# 2. Define the parameter grid to explore
+# We focus on parameters that control model complexity (overfitting)
+param_grid = {
+    'n_estimators': [100, 200],      # Number of trees
+    'max_depth': [None, 10, 20],     # Limits how deep trees grow
+    'min_samples_split': [2, 5, 10], # Minimum samples required to split a node
+    'max_features': ['sqrt', 'log2'] # Number of features considered at each split
+}
+
+# 3. Set up GridSearchCV with 5-fold Cross-Validation
+# 'cv=5' handles the cross-validation internally
+grid_search = GridSearchCV(estimator=rf, 
+                           param_grid=param_grid, 
+                           cv=5, 
+                           n_jobs=-1, 
+                           scoring='accuracy',
+                           verbose=2)
+
+# 4. Fit the model
+grid_search.fit(X_train, y_train)
+
+# 5. Extract the best model
+best_rf_model = grid_search.best_estimator_
+
+print(f"Best Parameters: {grid_search.best_params_}")
+print(f"Best Cross-Validation Score: {grid_search.best_score_:.4f}")
