@@ -1,0 +1,26 @@
+# --- Python Environment ---
+venv/
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Large Machine Learning Assets ---
+# Ignore the large model files
+*.pkl
+*.h5
+*.joblib
+
+# --- Data Files ---
+# Ignore raw and processed datasets
+*.csv
+*.xlsx
+*.json
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- App Specific ---
+.streamlit/
+Airline_Satisfaction_Analysis.pdf
