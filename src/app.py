@@ -4,20 +4,26 @@ import joblib
 import plotly.express as px
 from fpdf import FPDF
 import base64
+import os
+from dotenv import load_dotenv
+
+# 0. Load Environment Variables
+load_dotenv()
+APP_TITLE = os.getenv("APP_TITLE", "Pred_Air Satisfaction Analyzer")
+MODEL_FILENAME = os.getenv("MODEL_FILENAME", "best_satisfaction_model.pkl")
+COLUMNS_FILENAME = os.getenv("COLUMNS_FILENAME", "model_columns.pkl")
+BG_IMAGE_URL = os.getenv("BACKGROUND_IMAGE_URL", "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")
 
 # 1. Page Configuration
-st.set_page_config(page_title="Pred_Air Satisfaction Analyzer", page_icon="✈️", layout="wide")
+st.set_page_config(page_title=APP_TITLE, page_icon="✈️", layout="wide")
 
 # --- UI THEME & BACKGROUND IMAGE ---
-# I've slightly lightened the overlay from 0.85 to 0.75 so you can see the airplane better
-airplane_img_url = "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-
 st.markdown(f"""
     <style>
-    /* Fixed Background Image with optimized overlay for better visibility */
+    /* Fixed Background Image with optimized overlay */
     [data-testid="stAppViewContainer"] {{
         background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
-                    url("{airplane_img_url}");
+                    url("{BG_IMAGE_URL}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -36,7 +42,7 @@ st.markdown(f"""
         border-radius: 10px !important;
     }}
 
-    /* Large, Lengthy Analyze Button */
+    /* Large Analyze Button */
     div.stButton > button {{
         background-color: #0284c7 !important;
         color: white !important;
@@ -62,11 +68,11 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Load Assets
+# 2. Load Assets using .env variables
 @st.cache_resource
 def load_assets():
-    model = joblib.load('best_satisfaction_model.pkl')
-    columns = joblib.load('model_columns.pkl')
+    model = joblib.load(MODEL_FILENAME)
+    columns = joblib.load(COLUMNS_FILENAME)
     return model, columns
 
 model, model_columns = load_assets()
@@ -76,7 +82,7 @@ def create_pdf(data, result, confidence):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", 'B', 16)
-    pdf.cell(200, 10, txt="Pred_Air Satisfaction Analyzer Report", ln=True, align='C')
+    pdf.cell(200, 10, txt=f"{APP_TITLE} Report", ln=True, align='C')
     pdf.set_font("Arial", size=12)
     pdf.ln(10)
     pdf.cell(200, 10, txt=f"Final Status: {result}", ln=True)
@@ -89,7 +95,7 @@ def create_pdf(data, result, confidence):
         pdf.cell(200, 8, txt=f"{key}: {value}", ln=True)
     return pdf.output(dest='S').encode('latin-1')
 
-# 4. Mappings (Matched to your preprocess.py)
+# 4. Mappings
 rating_map = {"Excellent (5)": 5, "Good (4)": 4, "Average (3)": 3, "Fair (2)": 2, "Poor (1)": 1, "N/A (0)": 0}
 options = list(rating_map.keys())
 gender_map = {"Male": 1, "Female": 0}
@@ -97,8 +103,8 @@ customer_map = {"Loyal Customer": 1, "disloyal Customer": 0}
 travel_map = {"Business travel": 1, "Personal Travel": 0}
 class_map = {"Business": 2, "Eco Plus": 1, "Eco": 0}
 
-# CHANGED TITLE HERE
-st.title("✈️ Pred_Air Satisfaction Analyzer")
+# 5. UI Layout
+st.title(f"✈️ {APP_TITLE}")
 st.markdown("---")
 
 # --- STEP 1: PERSONAL DETAILS ---
