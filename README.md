@@ -90,6 +90,18 @@ streamlit run app.py
 
 This tool is for informational and analytical purposes only. While the AI provides high-accuracy predictions based on historical data, results should be used as a supplement to—not a replacement for—direct customer feedback and professional business intuition.
 
+🕹️ Live Demo & Usage
+
+Experience the **Pred_Air Satisfaction Analyzer** directly in your browser:
+
+**[🔗 Click Here to Launch the App](https://pred-airlinesatisfaction-spvjs55worggwiak3q3vee.streamlit.app/)**
+
+How to Interact with the Tool:
+1.  Passenger Profile: Set the Age, Gender, and Flight Class.
+2.  Service Ratings: Use the sliders (1-5) to rate specific service touchpoints.
+3.  Real-Time Prediction: Observe the "Satisfaction Meter" update instantly based on your inputs.
+4.  Export Results: Generate a formal PDF summary of your analysis for offline use.
+
 🛡️ License
 
 Distributed under the MIT License. See `LICENSE` for more information.
